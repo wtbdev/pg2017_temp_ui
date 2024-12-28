@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./fonts/agency.css">
+    <link rel="stylesheet" href="./css/style.css">
+    <script src="./js/socket.io.min.js"></script>
+</head>
+<body onload="createRole()">
+    <h1 class="title-text">OG:BattleGrounds
+    </h1>
+    <h2 class="subtitle-text">Offline Royale</h2>
+
+    <p class="bottom-text">Early Access pubg v2.6.30.4</p>
+
+    <div class="right-menu">
+        <p class="right-menu-item active">HOME</p>
+        <p class="right-menu-item">LOBBIES</p>
+        <p class="right-menu-item">FRIENDS
+            <!-- <img src="./icons/discord.svg"> -->
+        </p>
+    </div>
+    <div class="game-play-container">
+        <!-- <a href="./Lobby main menu.html">Old Lobby</a> -->
+        <div class="join-server-container">
+            <div style="font-size: 2vh;">Region</div>
+            <button class="sel-server-button" id="ASIA" onclick="selectAsia()">ASIA</button>
+            <button class="sel-server-button" id="NA" onclick="selectNA()">NA</button>
+            <button class="sel-server-button" id="OCE" onclick="selectOCE()">OCE</button>
+            <button class="sel-server-button" id="EU" onclick="selectEU()">EU</button>
+            <button class="sel-server-button" id="RU" onclick="selectRU()">RU</button>
+        </div>
+        <br>
+        <button class="join-server-button" onclick="joinServer()" id="join">
+            <span id="join-server-text">START</span>
+            <span id="join-server-hint" style="padding: 0;margin: 0;font-size: 0.5em;">test</span>
+        </button>
+    </div>
+
+    <div class="side-container">
+        <div class="user-info">
+            Welcome back, {{ Player }} !
+        </div>
+        <div class="discord-card" onclick="joinDiscord()">
+           
+            <div class="title">
+                <img src="./icons/discord.svg" alt="" class="discord-icon-bg">
+                &ensp;Join Our Discord!
+            </div>
+            <div class="content">
+                Join our Discord server to get the latest updates, ask questions, and interact with the community.
+            </div>
+        </div>
+    </div>
+    <script src="./js/jquery-2.2.0.min.js"></script>
+    <script src="./js/jquery-ui-1.11.4.min.js"></script>
+    <script src="./js/jquery.selectBoxIt-3.8.1.min.js"></script>
+    <script src="./js/coherent.js"></script>
+    <script src="./js/coherent.mock.js"></script>
+    <script src="./js/mock.entry.js"></script>
+    <script>
+
+        var server = "ASIA";
+        var serverList = {
+            ASIA: {
+                name: "ASIA",
+                ip: "218.93.206.88:52525"
+            },
+            NA: {
+                name: "NA",
+                ip: "40.124.122.51:8888"
+            },
+            OCE: {
+                name: "OCE",
+                ip: "119.17.151.38:8888"
+            },
+            EU: {
+                name: "EU",
+                ip: "playerunknownsbattlegrounds.asuscomm.com:8888"
+            },
+            RU: {
+                name: "RU",
+                ip: "81.88.116.119:8888"
+            }
+        };
+
+        var player = engine.trigger('GetClientAuthData')
+        console.log("Yes");
+
+        // engine.trigger("ShowWebPopup", {
+        //     popupId: "web_popup",
+        //     uri: "https://www.baidu.com/",
+        //     x: 400,
+        //     y: 400,
+        //     width: 400,
+        //     height: 400,
+        //     c: {},
+        //     useBackgroundColor: !0
+        // })
+
+        // function request_image(url) {
+        //     return new Promise(function(resolve, reject) {
+        //         var img = new Image();
+        //         img.onload = function() { resolve(img); };
+        //         img.onerror = function() { reject(url); };
+        //         img.src = url + '?random-no-cache=' + Math.floor((1 + Math.random()) * 0x10000).toString(16);
+        //     });
+        // }
+        function joinDiscord() {
+            engine.trigger('OpenExternalBrowser', 'https://discord.gg/UMhffXUVpm');
+        }
+
+        function ping(url, multiplier) {
+            var start = new Date().getTime();
+            var img = new Image();
+            img.onload = function() { 
+                $('#join-server-hint').text(Math.round((new Date().getTime() - start) * (multiplier || 1)) + "ms"); 
+            };
+            img.onerror = function() { 
+                var ping = Math.round((new Date().getTime() - start) * (multiplier || 1));
+                if (ping > 5000) {
+                    $('#join-server-hint').text("Timeout"); 
+                } else {
+                    $('#join-server-hint').text(ping + "ms");
+                }
+                
+            };
+            img.src = "http://" + url + '?random-no-cache=' + Math.floor((1 + Math.random()) * 0x10000).toString(16);
+        }
+
+        // function ping(url, multiplier) {
+        //     return new Promise(function(resolve, reject) {
+        //         var start = (new Date()).getTime();
+        //         var response = function() { 
+        //             var delta = ((new Date()).getTime() - start);
+        //             delta *= (multiplier || 1);
+        //             resolve(delta); 
+        //         };
+        //         request_image(url).then(response).catch(response);
+                
+        //         // Set a timeout for max-pings, 5s.
+        //         setTimeout(function() { reject(Error('Timeout')); }, 5000);
+        //     });
+        // }
+        // engine.trigger('DestoryLobbyCharacter', 0)
+        // engine.trigger('DestoryLobbyCharacter', 1)
+        // engine.trigger('DestoryLobbyCharacter', 2)
+        // engine.trigger('DestoryLobbyCharacter', 3)
+
+        function createRole() {
+            engine.trigger('DestoryLobbyCharacter', 0)
+            engine.trigger('DestoryLobbyCharacter', 1)
+            engine.trigger('DestoryLobbyCharacter', 2)
+            engine.trigger('DestoryLobbyCharacter', 3)
+            engine.trigger('SetLobbyCharacterAngle',0,90)
+            engine.trigger('CreateLobbyCharacter', 0, false, "","test1")
+            engine.trigger('UpdateLobbyCharacter', 0,{"Gender":false,"BoolOptions":[],"FloatOptions":[],"StringOptions":[{"First":"Hair","Second":"F_Hair_B_02"},{"First":"Face","Second":"F_Face_01"},{"First":"NudeBody","Second":"F_NudeBody_01"}],"ItemIds":[]});
+        }
+        
+
+        $().ready(function() {
+            updateServerStatus();
+            // engine.trigger('DestoryLobbyCharacter', 0)
+            // engine.trigger('DestoryLobbyCharacter', 1)
+            // engine.trigger('DestoryLobbyCharacter', 2)
+            // engine.trigger('DestoryLobbyCharacter', 3)
+            // engine.trigger('SetLobbyCharacterAngle',0,90)
+            // engine.trigger('CreateLobbyCharacter', 0, true, "","")
+            // engine.trigger('UpdateLobbyCharacter', 0,{"Gender":true,"BoolOptions":[],"FloatOptions":[],"StringOptions":[{"First":"Hair","Second":"F_Hair_B_02"},{"First":"Face","Second":"F_Face_01"},{"First":"NudeBody","Second":"F_NudeBody_01"}],"ItemIds":[]});
+        })
+        
+        // JoinCN();
+        function updateServerStatus() {
+            // $('#join-server-text').text("Join " + server + " Server");
+            $('#join-server-hint').text("pinging...");
+            ping(serverList[server].ip, 0.3);
+            $(".sel-server-button").removeClass("active");
+            $("#" + server).addClass("active");
+        }
+
+        function selectServer(val) {
+            $('#join-server-text').text("Join " + server + " Servsadsader");
+            server = val;
+            updateServerStatus();
+        }
+
+        function selectAsia() {
+            server = "ASIA";
+            updateServerStatus();
+        }
+
+        function selectNA() {
+            server = "NA";
+            updateServerStatus();
+        }
+
+        function selectOCE() {
+            server = "OCE";
+            updateServerStatus();
+        }
+
+        function selectEU() {
+            server = "EU";
+            updateServerStatus();
+        }
+
+        function selectRU() {
+            server = "RU";
+            updateServerStatus();
+        }
+
+        function joinServer() {
+            $("#join-server-text").text("Joining...");
+            $("#join-server-hint").text(serverList[server].ip);
+            engine.trigger('JoinToDedicatedServer', serverList[server].ip);
+        }
+    </script>
+</body>
+</html>

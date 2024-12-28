@@ -1,0 +1,197 @@
+@font-face {
+    font-family:"Pubg Sans Regular";
+    src:url("../fonts/PUBG_SANS.eot?") format("eot"),
+    url("../fonts/PUBG_SANS.woff") format("woff"),
+    url("../fonts/PUBG_SANS.ttf") format("truetype"),
+    url("../fonts/PUBG_SANS.svg#PubgSans-Regular") format("svg");
+    font-weight:normal;
+    font-style:normal;
+}
+
+
+body {
+    font-family: 'Agency', sans-serif;
+    cursor: pointer;
+    font-size: larger;
+}
+
+.right-menu {
+    position: absolute;
+    margin-top: 3.3vh;
+    left: 21vw;
+    right: 0;
+    width: 70vw;
+    font-size: 3vh;
+    color: #fff;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: first baseline;
+    /* border-bottom: 2px solid rgba(255, 255, 255, 0.5); */
+}
+
+.right-menu-item {
+    margin: 0 1vw;
+    color: gray;
+    transition: color 0.2s ease, border-color 0.2s ease;
+}
+
+.right-menu-item.active{
+    color: #e3b62f;
+    border-bottom: #e3b62f solid 2px;
+}
+
+.right-menu-item:hover {
+    color: #e3b62f;
+}
+
+.title-text {
+    font-family: 'PUBG Sans Regular';
+    text-shadow: #000 0.1em 0.1em 0.2em;
+    color: white;
+    font-size: 5vh;
+    margin-top: 2vh;
+    margin-left: 2vh;
+    position: fixed;
+}
+
+.subtitle-text {
+    font-family: 'PUBG Sans Regular';
+    text-shadow: #000 0.1em 0.1em 0.2em;
+    color: gray;
+    font-size: 3vh;
+    margin-top: 8vh;
+    margin-left: 2vh;
+    position: fixed;
+}
+
+
+
+.join-server-button:hover {
+    background-color: #a7853b;
+    /* color: #FFF; */
+}
+
+.bottom-text {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    text-align: center;
+    font-size: 1.5vh;
+    color: #fff;
+    text-shadow: #000 0.1em 0.1em 0.2em;
+}
+
+.game-play-container {
+    position: fixed;
+    bottom: 0;
+    padding: 0vh;
+    margin: 2vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+}
+
+/* 平铺服务器区域按钮 */
+.join-server-container {    
+    display: flex;
+    padding: 0;
+    /* margin-bottom: -1vh; */
+    width: 100%;
+    flex-direction: column;
+    color: #fff;
+    /* justify-content:space-between; */
+
+}
+
+/* Yellow button with borders */
+.join-server-button {
+    background-color: #e3b62f;
+    /* border: 2px solid darkgray; */
+    font-family: 'Agency';
+    padding: 1vh;
+    width: 20vh;
+    color: #000;
+    font-size: 3vh;
+    cursor: pointer;
+    border: none;
+    border-radius: 0px;
+    text-align: center;
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+.sel-server-button {
+    font-family: 'Agency';
+    margin-bottom: 0.9vh;
+    font-size: 2vh;
+    padding: 0vh 0vh 0vh 0vh;
+    background-color: gray;
+    border: none;
+    color: white;
+}
+
+.sel-server-button.active {
+    background-color: white;
+    color: black;
+}
+
+.side-container {
+    position: fixed;
+    left: 75vw;
+    bottom: 2vh;
+    width: 25vw;
+    display: flex;
+    flex-direction: column;
+    color: #fff;
+}
+
+.discord-card {
+    background: rgb(108, 69, 147);
+    border-left: 10px solid rgb(255, 255, 255);
+    padding: 2vh;
+}
+
+.discord-card > .title {
+    font-size: 3vh;
+    padding: 1vh;
+    color: #fff;
+    z-index: 9999;
+    display: flex;
+    justify-content: left center;
+    align-items: safe center;
+}
+
+.discord-card > .content {
+    font-size: 2vh;
+    padding: 1vh;
+    color: #fff;
+    z-index: 9999;
+}
+
+.discord-card:hover {
+    color: rgb(38, 30, 45);
+}
+
+.discord-icon-bg {
+    width: 5vh;
+    padding-bottom: 1vh;
+    color: #563d5f;
+}
+
+.radio-button:hover {
+    color: #FFC107;
+}
+
+.radio-button:checked {
+    color: #FFC107;
+}
+
+.user-info {
+    font-size: 2vh;
+    padding: 1vh;
+    color: #fff;
+    z-index: 9999;
+}
