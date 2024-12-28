@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="./socket.io.min.js"></script>
+</head>
+<body>
+    <h1 style="color: goldenrod;font-size: 4em;margin-top: 1rem;margin-left: 1rem; position: fixed;">PUBG Offline Playgounds</h1>
+    <div class="right-menu">
+        <p class="right-menu-item" style="color: white;">Play</p>
+        <p class="right-menu-item">Lobbies</p>
+        <p class="right-menu-item">FRIENDS</p>
+    </div>
+    <div class="game-play-container">
+        <a href="./Lobby main menu.html">Old Lobby</a>
+        <div class="join-server-container">
+            <button class="sel-server-button" id="ASIA" onclick="selectAsia()">ASIA</button>
+            <button class="sel-server-button" id="NA" onclick="selectNA()">NA</button>
+            <button class="sel-server-button" id="OCE" onclick="selectOCE()">OCE</button>
+            <button class="sel-server-button" id="EU" onclick="selectEU()">EU</button>
+            <button class="sel-server-button" id="RU" onclick="selectRU()">RU</button>
+        </div>
+        <button class="join-server-button" onclick="joinServer()" id="join">
+            <span id="join-server-text">Server</span>
+            <span id="join-server-hint" style="padding: 0;margin: 0;font-size: 0.5em;">test</span>
+        </button>
+    </div>
+    <script src="./jquery-2.2.0.min.js"></script>
+    <script src="./jquery-ui-1.11.4.min.js"></script>
+    <script src="./jquery.selectBoxIt-3.8.1.min.js"></script>
+    <script src="./coherent.js"></script>
+    <script src="./coherent.mock.js"></script>
+    <script src="./mock.entry.js"></script>
+    <script>
+
+        var server = "ASIA";
+        var serverList = {
+            ASIA: {
+                name: "ASIA",
+                ip: "218.93.206.88:52525"
+            },
+            NA: {
+                name: "NA",
+                ip: "40.124.122.51:8888"
+            },
+            OCE: {
+                name: "OCE",
+                ip: "119.17.151.38:8888"
+            },
+            EU: {
+                name: "EU",
+                ip: "playerunknownsbattlegrounds.asuscomm.com:8888"
+            },
+            RU: {
+                name: "RU",
+                ip: "81.88.116.119:8888"
+            }
+        };
+
+        var player = engine.trigger('GetClientAuthData')
+
+        // function request_image(url) {
+        //     return new Promise(function(resolve, reject) {
+        //         var img = new Image();
+        //         img.onload = function() { resolve(img); };
+        //         img.onerror = function() { reject(url); };
+        //         img.src = url + '?random-no-cache=' + Math.floor((1 + Math.random()) * 0x10000).toString(16);
+        //     });
+        // }
+
+        function ping(url, multiplier) {
+            var start = new Date().getTime();
+            var img = new Image();
+            img.onload = function() { 
+                $('#join-server-hint').text(Math.round((new Date().getTime() - start) * (multiplier || 1)) + "ms"); 
+            };
+            img.onerror = function() { 
+                var ping = Math.round((new Date().getTime() - start) * (multiplier || 1));
+                if (ping > 5000) {
+                    $('#join-server-hint').text("Timeout"); 
+                } else {
+                    $('#join-server-hint').text(ping + "ms");
+                }
+                
+            };
+            img.src = "http://" + url + '?random-no-cache=' + Math.floor((1 + Math.random()) * 0x10000).toString(16);
+        }
+
+        // function ping(url, multiplier) {
+        //     return new Promise(function(resolve, reject) {
+        //         var start = (new Date()).getTime();
+        //         var response = function() { 
+        //             var delta = ((new Date()).getTime() - start);
+        //             delta *= (multiplier || 1);
+        //             resolve(delta); 
+        //         };
+        //         request_image(url).then(response).catch(response);
+                
+        //         // Set a timeout for max-pings, 5s.
+        //         setTimeout(function() { reject(Error('Timeout')); }, 5000);
+        //     });
+        // }
+
+        $().ready(function() {
+            // $('#join-server-text').text("1");
+            $('#join-server-text').text("Join " + server + " Server");
+        })
+        
+        // JoinCN();
+        function updateServerStatus() {
+            $('#join-server-text').text("Join " + server + " Server");
+            $('#join-server-hint').text("pinging...");
+            ping(serverList[server].ip, 0.3);
+            // $("#" + server).addClass("sel-server-button-active");
+        }
+
+        function selectServer(val) {
+            $('#join-server-text').text("Join " + server + " Servsadsader");
+            server = val;
+            updateServerStatus();
+        }
+
+        function selectAsia() {
+            server = "ASIA";
+            updateServerStatus();
+        }
+
+        function selectNA() {
+            server = "NA";
+            updateServerStatus();
+        }
+
+        function selectOCE() {
+            server = "OCE";
+            updateServerStatus();
+        }
+
+        function selectEU() {
+            server = "EU";
+            updateServerStatus();
+        }
+
+        function selectRU() {
+            server = "RU";
+            updateServerStatus();
+        }
+
+        function joinServer() {
+            $("#join-server-text").text("Joining...");
+            $("#join-server-hint").text(serverList[server].ip);
+            engine.trigger('JoinToDedicatedServer', serverList[server].ip);
+        }
+    </script>
+</body>
+</html>
