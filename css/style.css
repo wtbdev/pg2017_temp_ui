@@ -24,10 +24,41 @@ body {
     font-size: 3vh;
     color: #fff;
     display: flex;
+    text-transform: uppercase;
     flex-direction: row;
     justify-content: flex-start;
     align-items: first baseline;
     /* border-bottom: 2px solid rgba(255, 255, 255, 0.5); */
+}
+
+.right-submenu {
+    position: absolute;
+    margin-top: 7.5vh;
+    left: 21.5vw;
+    right: 0;
+    width: 70vw;
+    font-size: 2.5vh;
+    color: #fff;
+    display: flex;
+    text-transform: uppercase;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: first baseline;
+    /* border-bottom: 2px solid rgba(255, 255, 255, 0.5); */
+}
+
+.right-submenu-item {
+    margin: 0 0.5vw;
+    color: gray;
+    transition: color 0.2s ease, border-color 0.2s ease;
+}
+
+.right-submenu-item.active{
+    color: #e3b62f;
+}
+
+.right-submenu-item:hover {
+    color: #e3b62f;
 }
 
 .right-menu-item {
@@ -65,13 +96,6 @@ body {
     position: fixed;
 }
 
-
-
-.join-server-button:hover {
-    background-color: #a7853b;
-    /* color: #FFF; */
-}
-
 .bottom-text {
     position: fixed;
     bottom: 0;
@@ -90,52 +114,59 @@ body {
     margin: 2vh;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: flex-start;
     justify-content: center;
     color: #fff;
+}
+
+
+
+/* Yellow button with borders */
+.join-server-button {
+    background-color: rgba(227, 182, 47, 0.5);
+    /* border: 2px solid darkgray; */
+    font-family: 'Agency';
+    padding: 1vh 0vh 1vh 0vh;
+    width: 20vh;
+    color: #fff;
+    font-size: 4vh;
+    cursor: pointer;
+    border: 2px solid rgba(227, 182, 47, 1);
+    border-radius: 0px;
+    text-align: center;
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+.join-server-button:hover {
+    background-color: rgba(227, 182, 47, 0.7);
+    /* color: #FFF; */
 }
 
 /* 平铺服务器区域按钮 */
 .join-server-container {    
     display: flex;
     padding: 0;
-    /* margin-bottom: -1vh; */
-    width: 100%;
+    margin-bottom: 0vh;
+    width: 20vh;
     flex-direction: column;
     color: #fff;
     /* justify-content:space-between; */
-
-}
-
-/* Yellow button with borders */
-.join-server-button {
-    background-color: #e3b62f;
-    /* border: 2px solid darkgray; */
-    font-family: 'Agency';
-    padding: 1vh;
-    width: 20vh;
-    color: #000;
-    font-size: 3vh;
-    cursor: pointer;
-    border: none;
-    border-radius: 0px;
-    text-align: center;
-    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
 }
 
 .sel-server-button {
     font-family: 'Agency';
-    margin-bottom: 0.9vh;
+    margin-bottom: -0.25vh;
     font-size: 2vh;
-    padding: 0vh 0vh 0vh 0vh;
-    background-color: gray;
-    border: none;
-    color: white;
+    text-align: left;
+    text-indent: 0.5vw;
+    padding: 0.2vh 0vh 0.2vh 0vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    color: gray;
 }
 
 .sel-server-button.active {
-    background-color: white;
-    color: black;
+    color: rgba(227, 182, 47, 1);
 }
 
 .side-container {
@@ -149,7 +180,7 @@ body {
 }
 
 .discord-card {
-    background: rgb(108, 69, 147);
+    background: rgba(108, 69, 147, 0.5);
     border-left: 10px solid rgb(255, 255, 255);
     padding: 2vh;
 }
@@ -189,9 +220,65 @@ body {
     color: #FFC107;
 }
 
-.user-info {
-    font-size: 2vh;
-    padding: 1vh;
+
+
+.hide {
+    display: none;
+}
+
+.debug-text {
+    position: fixed;
+    bottom: 50vh;
+    left: 0;
+    right: 0;
+    text-align: center;
+    font-size: 1.5vh;
     color: #fff;
-    z-index: 9999;
+    background-color: rgba(255, 255, 255, 0.363);
+    text-shadow: #000 0.1em 0.1em 0.2em;
+}
+
+.serial-text {
+    position: fixed;
+    bottom: 3vh;
+    left: 0;
+    right: 0;
+    text-align: center;
+    font-size: 1.5vh;
+    color: rgba(255, 255, 255, 0.5)
+}
+
+
+
+.player-info-container {
+    font-family: 'Overpass-Reg', sans-serif;
+    position: fixed;
+    left: 1.5vw;
+    top: 16vh;
+    width: 10vw;
+    font-size: 2vh;
+    display: flex;
+    flex-direction: row;
+    color: #fff;
+}
+
+.user-info {
+    padding-left: 1vw;
+    padding-top: -2vh;
+    color: #fff;
+}
+
+.bp-info {
+    font-family: 'Agency';
+    padding-top: 0.1vh;
+}
+
+.bp-info > strong {
+    color: #FFC107;
+    padding-right: 0.5vw;
+}
+
+.player-count {
+    padding-left: 1vh;
+    font-size: 2vh;
 }
