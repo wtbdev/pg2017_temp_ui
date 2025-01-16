@@ -6,15 +6,17 @@
     <title>Document</title>
     <link rel="stylesheet" href="./fonts/agency.css">
     <link rel="stylesheet" href="./fonts/overpass.css">
+    <link rel="stylesheet" href="./fonts/sourcehan.css">
     <link rel="stylesheet" href="./css/style.css">
-    <script src="./js/socket.io.min.js"></script>
 </head>
 <body onload="createRole()">
     
-    <div class="main" id="app">
-        <h1 class="title-text">OG:BattleGround
-        </h1>
-        <h2 class="subtitle-text">Battle Royale</h2>
+    <div class="main" id="app" :class="{'localed': language != 'en'}">
+        <img class="title-image" src="./icons/logo.svg" alt="">
+
+        <div class="loading-display" :class="{'hide': loaded}">
+            <p class="loading-text">Please Wait Page Loading...</p>
+        </div>
 
         <div class="right-menu">
             <p class="right-menu-item" v-for="router in routers" :class="{'active': router.active == true}">{{ router.name }}</p>
@@ -33,7 +35,7 @@
         <p class="bottom-text">Early Access pubg v2.6.30.4</p>
         <div class="game-play-container">
             <div class="join-server-container">
-                <div style="font-size: 2vh;color: lightgray;margin-bottom: 0.5vh;">REGION</div>
+                <div style="font-size: 2vh;color: lightgray;margin-bottom: 0.5vh;">{{ l('region') }}</div>
                 <button v-for="server in serverList"
                         v-bind:class="{'sel-server-button': true, 'active': server.name === currentServer.name}"
                         :id="server.name"
@@ -44,12 +46,12 @@
             <br>
             <div style="display: flex;flex-direction: row;align-items: flex-end;">
                 <button class="join-server-button" onclick="joinServer()" id="join">
-                    <span id="join-server-text">START</span>
+                    <span id="join-server-text" :class="{'localed': language != 'en'}">{{ l('start') }}</span>
                     <span id="join-server-hint" style="padding: 0;margin: 0;font-size: 0.5em;"></span>
                 </button>
-                <div class="player-count" :class="{'hide': currentServer.name != 'AS'}">
+                <!-- <div class="player-count" :class="{'hide': currentServer.name != 'AS'}">
                     {{ playerCountInfo }}
-                </div>
+                </div> -->
             </div>
         </div>
     
@@ -57,20 +59,20 @@
             <div class="discord-card" onclick="joinDiscord()">
                 <div class="title">
                     <img src="./icons/discord.svg" alt="" class="discord-icon-bg">
-                    &ensp;Join Our Discord!
+                    &ensp;{{ l('discord_join') }}
                 </div>
                 <div class="content">
-                    Join our Discord server to get the latest updates, ask questions, and interact with the community.
+                    {{ l('discord_join_description') }}
                 </div>
             </div>
         </div>
 
-        <!-- <div class="player-info-container">
+        <div class="player-info-container">
             <div class="bp-info"><strong>BP</strong>999</div>
             <div class="user-info">
-                {{ Player }}
+                {{ l('hello') }}
             </div>
-        </div> -->
+        </div>
     </div>
     <script src="./js/jquery-2.2.0.min.js"></script>
     <script src="./js/jquery-ui-1.11.4.min.js"></script>
@@ -79,6 +81,8 @@
     <script src="./js/coherent.mock.js"></script>
     <script src="./js/mock.entry.js"></script>
     <script src="./js/vue.js"></script>
+    <script src="./js/socket.io.min.js"></script>
+    <script src="./js/language.js"></script>
     <script>
         var serverList = [
             {
@@ -95,33 +99,13 @@
                 name: "OCE",
                 ip: "119.17.151.38:8888"
             },
+            // {
+            //     name: "EU",
+            //     ip: "playerunknownsbattlegrounds.asuscomm.com:8888"
+            // },
             {
-                name: "EU",
-                ip: "playerunknownsbattlegrounds.asuscomm.com:8888"
-            }
-        ]
-
-        var routers = [
-            {
-                name: "Home",
-                active: true,
-                child: [
-                    {
-                        name: "Public Match",
-                        active: true,
-                    },
-                    {
-                        name: "Custom Match",
-                    }
-                ]
-            },
-            {
-                name: "Lobbies",
-                child: []
-            },
-            {
-                name: "Friends",
-                child: []
+                name: "LOCAL",
+                ip: "127.0.0.1:8888"
             }
         ]
 
@@ -158,41 +142,70 @@
                 userSerial: "userSerial",
                 currentServer: serverList[0],
                 debugInfo: "Here is debugInfo",
-                isDebug: false,
-                routers: routers,
-                currentRouter: routers[0],
+                isDebug: true,
+                routers: [],
+                currentRouter: {},
                 playerCountInfo: "Wait for Update",
+                language: "zh-CN",
+                loaded: false
             },
             methods: {
                 selectServer: selectServer,
                 joinServer: joinServer,
                 getServerByName: getServerByName,
+                l: l,
             }
         });
         
 
         $().ready(function() {
-            var result = engine.call('GetClientAuthData');
-            result.then(function (r) {
-                app.debugInfo = "info:" + JSON.stringify(r);
-                app.userSerial = r.userSerial;
-                app.Player = r.userSerial.toString().split('-')[0];
-                // console.log
-            })
-
-
+            app.language = localStorage.getItem('language') || navigator.language;
+            //app.language = 'en';
+            app.routers = [
+                {
+                    id: "home",
+                    name: l('home'),
+                    active: true,
+                    child: [
+                        {
+                            id: "match_public",
+                            name: l('match_public'),
+                            active: true,
+                        },
+                        {
+                            id: "match_custom",
+                            name: l('match_custom'),
+                        }
+                    ]
+                },
+                {
+                    id: "lobbies",
+                    name: l('lobbies'),
+                    child: []
+                },
+                {
+                    id: "friends",
+                    name: l('friends'),
+                    child: []
+                }
+            ];
+            app.currentRouter = app.routers[0];
             
-            // var result = engine.trigger("UdpPingTest", "218.93.206.88:52525", 1, 5);
-            // app.debugInfo = "info:" + result;
-            // engine.on('UdpPingTestResult', function (n, l, t) {
-            //     console.log(n, l, t);
-            //     app.debugInfo = "info:" + n + " " + l + " " + t;
-            //     $(".debug-text").text(n + " " + l + " " + t);
-            // })
-            // $("#join-server-hint").text(result[0].ping);
-            // $("#join-server-hint").text(result[0].ip);
-            // updateServerStatus();
         })
+
+        window.onload = function () {
+            console.log("font loaded");
+            app.debugInfo = "font loaded";
+            app.loaded = true;
+            // var result = engine.call('GetClientAuthData');
+            // result.then(function (r) {
+            //     // app.debugInfo = "info:" + JSON.stringify(r);
+            //     app.userSerial = r.userSerial;
+            //     app.Player = r.userSerial.toString().split('-')[0];
+            //     // console.log
+            // });
+            // app.debugInfo = "test"
+        }
 
         function selectServer(val) {
             app.server = val;
@@ -223,7 +236,7 @@
         function joinServer() {
             try {
                 $("#join-server-text").text('Joining...');
-                $("#join-server-hint").text("a" + app.currentServer.ip);
+                // $("#join-server-hint").text("a" + app.currentServer.ip);
                 engine.trigger('JoinToDedicatedServer', app.currentServer.ip);
             } catch (e) {
                 $("#join-server-text").text(e);
