@@ -67,12 +67,12 @@
             </div>
         </div>
 
-        <div class="player-info-container">
+        <!-- <div class="player-info-container">
             <div class="bp-info"><strong>BP</strong>999</div>
             <div class="user-info">
                 {{ l('hello') }}
             </div>
-        </div>
+        </div> -->
     </div>
     <script src="./js/jquery-2.2.0.min.js"></script>
     <script src="./js/jquery-ui-1.11.4.min.js"></script>
@@ -142,7 +142,7 @@
                 userSerial: "userSerial",
                 currentServer: serverList[0],
                 debugInfo: "Here is debugInfo",
-                isDebug: true,
+                isDebug: false,
                 routers: [],
                 currentRouter: {},
                 playerCountInfo: "Wait for Update",
@@ -197,6 +197,7 @@
             console.log("font loaded");
             app.debugInfo = "font loaded";
             app.loaded = true;
+            createRole();
             // var result = engine.call('GetClientAuthData');
             // result.then(function (r) {
             //     // app.debugInfo = "info:" + JSON.stringify(r);
