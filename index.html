@@ -86,17 +86,17 @@
     <script>
         var serverList = [
             {
-                name: "AS",
+                name: "Asia Server",
                 description: "Asia Server",
-                ip: "218.93.206.88:52525"
+                ip: "asia.ogbattlegrounds.top:8888"
             },
             {
-                name: "NA",
+                name: "NA Server",
                 description: "North Amercian Server",
                 ip: "40.124.122.51:8888"
             },
             {
-                name: "OCE",
+                name: "OCE Server",
                 ip: "119.17.151.38:8888"
             },
             // {
@@ -221,7 +221,7 @@
 
         function selectServer(server) {
             app.currentServer = server;
-            if (server.name == "AS") {
+            if (server.name == "AS Server") {
                 $.ajax({
                     url: "GetPlayerNum?region=ASIA",
                     type: "GET",
