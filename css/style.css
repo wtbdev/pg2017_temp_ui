@@ -8,6 +8,14 @@
     font-style:normal;
 }
 
+.fade-enter-active, .fade-leave-active {
+    transition: opacity 0.5s
+}
+
+.fade-enter, .fade-leave-to /* .fade-leave-active, 2.1.8 版本以下 */ {
+    opacity: 0
+}
+
 .loading-display {
     font-family: "Agency";
     position: fixed;
@@ -26,7 +34,54 @@
 }
 
 .loading-text {
+    position: fixed;
+    left: 50%;
+    transform: translate(-50%);
+    bottom: 3vh;
+    font-size: 3vh;
+    font-family: 'Overpass-Reg'
+}
+
+.loading-text > img {
+    width: 2vh;
+    height: 2vh;
+    padding-right: 8px;
+    
+}
+
+.loading-lobby-select {
+    position: fixed;
+    left: 50%;
+    top: 0;
+    transform: translate(-50%);
     font-size: 4vh;
+    background-color: rgba(255, 255, 255, 0.5);
+    font-size: 3vh;
+    padding: 1vh;
+    text-align: center;
+}
+
+.loading-background {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.change-lobby-button {
+    font-family: 'Agency';
+    margin-bottom: -0.25vh;
+    font-size: 2vh;
+    text-align: center;
+    text-indent: 0.5vw;
+    padding: 1vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    color: gray;
+    text-decoration: none;
+}
+
+.change-lobby-button.active {
+    color: rgba(227, 182, 47, 1);
 }
 
 body {
@@ -235,6 +290,33 @@ body {
 }
 
 .discord-card:hover {
+    color: rgb(38, 30, 45);
+}
+
+.attention-card {
+    background: rgba(223, 236, 102, 0.5);
+    border-left: 10px solid rgb(255, 255, 255);
+    padding: 2vh;
+}
+
+.attention-card > .title {
+    font-size: 3vh;
+    padding: 1vh;
+    color: #fff;
+    z-index: 9999;
+    display: flex;
+    justify-content: left center;
+    align-items: safe center;
+}
+
+.attention-card > .content {
+    font-size: 2vh;
+    padding: 1vh;
+    color: #fff;
+    z-index: 9999;
+}
+
+.attention-card:hover {
     color: rgb(38, 30, 45);
 }
 
