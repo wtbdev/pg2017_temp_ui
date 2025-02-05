@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="./fonts/agency.css">
     <link rel="stylesheet" href="./fonts/overpass.css">
     <link rel="stylesheet" href="./fonts/sourcehan.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto+Sans+SC:100,300,400,500,700,900">
     <link rel="stylesheet" href="./css/style.css">
 </head>
 <body onload="createRole()">
@@ -20,6 +21,7 @@
                     <div style="text-align: center;font-size: 4vh;color: gray;">BATTLEGROUNDS</div>
                     <div style="text-align: center;font-size: 3vh;color: gray;font-family:'Overpass-Reg'">A Open Source Server for PUBG 2017</div>
                 </div>
+                <button class="fix-button" @click="toggleLanguageAndRefresh()">{{ langDisabled ? 'Enable' : 'Disable' }} language</button>
                 <div class="loading-lobby-select">
                     <div style="font-family:'Overpass-Reg';font-size: 2vh">Lobbies</div>
                     <div>
@@ -90,12 +92,13 @@
             </div>
         </div>
 
-        <!-- <div class="player-info-container">
-            <div class="bp-info"><strong>BP</strong>999</div>
+        <div class="player-info-container">
+            <button class="fix-button" @click="toggleLanguageAndRefresh()">{{ langDisabled ? 'Enable' : 'Disable' }} language</button>
+            <!-- <div class="bp-info"><strong>BP</strong>999</div>
             <div class="user-info">
                 {{ l('hello') }}
-            </div>
-        </div> -->
+            </div> -->
+        </div>
     </div>
     <script src="./js/jquery-2.2.0.min.js"></script>
     <script src="./js/jquery-ui-1.11.4.min.js"></script>
@@ -113,7 +116,7 @@
         BEFORE YOU DEPLOY THE LOBBY,
         CHANGE THE LOBBY ID HERE!
         */
-        const lobbyId = "cn";
+        const lobbyId = "eu";
             
 
         // var player = engine.trigger('GetClientAuthData')
@@ -156,12 +159,14 @@
                 language: "zh-CN",
                 loaded: false,
                 lobbies: lobbies,
-                lobbyId: lobbyId
+                lobbyId: lobbyId,
+                langDisabled: localStorage.getItem('langDisabled') ? true : false,
             },
             methods: {
                 selectServer: selectServer,
                 joinServer: joinServer,
                 getServerByName: getServerByName,
+                toggleLanguageAndRefresh: toggleLanguageAndRefresh,
                 l: l,
             }
         });
@@ -169,7 +174,10 @@
 
         $().ready(function() {
             app.language = localStorage.getItem('language') || navigator.language;
-            //app.language = 'en';
+            if (localStorage.getItem('langDisabled')) {
+                app.language = 'en'
+            }
+            // 
             app.routers = [
                 {
                     id: "home",
@@ -253,8 +261,18 @@
             }
         }
 
-        function fixLobbyJoin() {
-            
+        function toggleLanguage() {
+            var langDisabled = localStorage.getItem('langDisabled');
+            if (langDisabled) {
+                localStorage.removeItem('langDisabled');
+            } else {
+                localStorage.setItem('langDisabled', true);
+            }
+        }
+
+        function toggleLanguageAndRefresh() {
+            toggleLanguage();
+            location.reload();
         }
     </script>
 </body>

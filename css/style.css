@@ -94,6 +94,18 @@ body {
     font-family: 'Source SC';
 }
 
+.fix-button {
+    font-family: 'Agency';
+    margin-bottom: -0.25vh;
+    font-size: 2vh;
+    text-align: center;
+    padding: 1vh;
+    background-color: rgba(90, 90, 90, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    color: gray;
+    text-decoration: none;
+}
+
 .right-menu {
     position: absolute;
     margin-top: 3.3vh;
