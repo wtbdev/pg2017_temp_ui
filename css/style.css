@@ -91,7 +91,8 @@ body {
 }
 
 .localed {
-    font-family: 'Source SC';
+    font-family: 'Noto Sans SC';
+    font-weight: 600;
 }
 
 .fix-button {
